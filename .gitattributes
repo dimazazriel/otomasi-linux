@@ -1,0 +1,6 @@
+# Paksa akhir baris gaya Linux (LF) untuk script dan config.
+# Tanpa ini, file yang sempat disimpan di Windows bisa error "bad interpreter: ^M".
+*.sh        text eol=lf
+*.example   text eol=lf
+*.conf      text eol=lf
+*.md        text eol=lf

@@ -1,0 +1,26 @@
+# =============================================================================
+# Contoh konfigurasi backup.sh
+# File ini TIDAK berisi password, token, private key, atau credential apa pun —
+# backup.sh memang tidak membutuhkannya.
+#
+# Cara pakai:
+#   cp config/backup.conf.example config/backup.conf
+#   nano config/backup.conf          # sesuaikan isinya
+#   ./backup.sh -c config/backup.conf
+#
+# config/backup.conf (milik masing-masing anggota) diabaikan git lewat
+# .gitignore; yang di-commit hanya file contoh ini.
+#
+# Format: KUNCI=nilai, satu per baris. Baris diawali # adalah komentar.
+# Kunci yang dikenali: SUMBER, TUJUAN, PREFIX (kunci lain diabaikan + WARN).
+# =============================================================================
+
+# Folder yang ingin di-backup (wajib). Boleh memakai ~ untuk folder home.
+SUMBER=~/contoh_data
+
+# Folder tempat arsip disimpan (opsional; default: folder backups/ di dalam proyek)
+# Tidak boleh berada di dalam folder SUMBER.
+TUJUAN=~/arsip_backup
+
+# Awalan nama arsip: hanya huruf, angka, _ dan - (opsional; default: backup)
+PREFIX=data_kelompok

@@ -1,0 +1,14 @@
+# Hasil backup & log pemakaian sehari-hari tidak di-commit
+# (bisa besar dan bisa berisi data). Bukti pengujian ada di bukti/.
+backups/
+logs/
+*.tmp
+
+# Config asli milik masing-masing anggota — yang di-commit hanya *.example
+config/backup.conf
+
+# Jaga-jaga: jangan pernah commit file rahasia
+.env
+*.pem
+*.key
+id_rsa*

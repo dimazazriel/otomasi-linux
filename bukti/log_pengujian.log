@@ -1,0 +1,31 @@
+##### TC-01 [BERHASIL] Backup folder memakai file config #####
+2026-10-27 14:14:29 [INFO] [pid 1880] === Mulai backup (pid 1880) ===
+2026-10-27 14:14:29 [INFO] [pid 1880] Config dimuat: <sandbox>/uji.conf
+2026-10-27 14:14:29 [INFO] [pid 1880] Sumber : <sandbox>/data
+2026-10-27 14:14:29 [INFO] [pid 1880] Tujuan : <sandbox>/hasil
+2026-10-27 14:14:29 [INFO] [pid 1880] Prefix : uji
+2026-10-27 14:14:29 [INFO] [pid 1880] Folder tujuan dibuat: <sandbox>/hasil
+2026-10-27 14:14:29 [INFO] [pid 1880] Membuat arsip dari <sandbox>/data ...
+2026-10-27 14:14:29 [INFO] [pid 1880] Verifikasi OK: arsip bisa dibaca ulang, berisi 4 entri (file + folder).
+2026-10-27 14:14:30 [INFO] [pid 1880] Arsip    : <sandbox>/hasil/uji_20261027_141429.tar.gz
+2026-10-27 14:14:30 [INFO] [pid 1880] Ukuran   : 4.0K
+2026-10-27 14:14:30 [INFO] [pid 1880] Isi      : 4 entri
+2026-10-27 14:14:30 [INFO] [pid 1880] SHA-256  : 0d1b4647490c890505a1ad4731c1da0061761a40063b17d48d5fcec03be9273f
+2026-10-27 14:14:30 [INFO] [pid 1880] Checksum : <sandbox>/hasil/uji_20261027_141429.tar.gz.sha256
+2026-10-27 14:14:30 [INFO] [pid 1880] === Selesai: BERHASIL (exit status 0, durasi 1 detik) ===
+##### TC-02 [GAGAL] Folder sumber tidak ada #####
+2026-10-27 14:14:30 [INFO] [pid 1979] === Mulai backup (pid 1979) ===
+2026-10-27 14:14:30 [ERROR] [pid 1979] Folder sumber tidak ditemukan: <sandbox>/folder_tidak_ada
+2026-10-27 14:14:30 [ERROR] [pid 1979] === Selesai: GAGAL (exit status 4) ===
+##### TC-03 [GAGAL] Prefix berisi ../ (mencoba menulis ke luar folder tujuan) #####
+2026-10-27 14:14:30 [INFO] [pid 2018] === Mulai backup (pid 2018) ===
+2026-10-27 14:14:30 [ERROR] [pid 2018] Prefix '../../jahat' tidak valid. Hanya boleh huruf, angka, _ dan - (maks. 50 karakter).
+2026-10-27 14:14:30 [ERROR] [pid 2018] === Selesai: GAGAL (exit status 2) ===
+##### TC-04 [GAGAL] Folder tujuan berada di dalam folder sumber #####
+2026-10-27 14:14:30 [INFO] [pid 2059] === Mulai backup (pid 2059) ===
+2026-10-27 14:14:30 [ERROR] [pid 2059] Folder tujuan (<sandbox>/data/backup) berada di dalam folder sumber (<sandbox>/data). Pilih tujuan di luar sumber.
+2026-10-27 14:14:30 [ERROR] [pid 2059] === Selesai: GAGAL (exit status 5) ===
+##### TC-05 [GAGAL] File config tidak ditemukan #####
+2026-10-27 14:14:30 [INFO] [pid 2100] === Mulai backup (pid 2100) ===
+2026-10-27 14:14:30 [ERROR] [pid 2100] File config tidak ditemukan: <sandbox>/tidak_ada.conf
+2026-10-27 14:14:30 [ERROR] [pid 2100] === Selesai: GAGAL (exit status 3) ===

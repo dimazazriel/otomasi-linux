@@ -45,7 +45,7 @@ Modul shell script untuk membackup sebuah folder menjadi arsip `.tar.gz` yang **
 
 ## 3. Kebutuhan
 
-- Linux (diuji di Ubuntu / WSL Ubuntu) dengan Bash 4 atau lebih baru
+- Linux (diuji di WSL Ubuntu) dengan Bash 4 atau lebih baru
 - `tar`, `gzip`, `sha256sum`, `realpath`, `du` — sudah tersedia di Ubuntu (paket `coreutils`, `tar`, `gzip`)
 - Tidak butuh akses root/sudo, tidak butuh password atau credential apa pun
 
@@ -92,7 +92,7 @@ nano config/backup.conf
 ./backup.sh -c config/backup.conf
 ```
 
-Config dibaca baris per baris, **tidak** dijalankan dengan `source`, sehingga isi config tidak bisa menyisipkan perintah. Hanya kunci `SUMBER`, `TUJUAN`, `PREFIX` yang diterima.
+Config dibaca baris per baris, tidak dijalankan dengan `source`, sehingga isi config tidak bisa menyisipkan perintah. Hanya kunci `SUMBER`, `TUJUAN`, `PREFIX` yang diterima.
 
 ---
 
@@ -156,13 +156,19 @@ Pengujian berjalan di folder sementara (`mktemp -d`) yang dihapus otomatis, jadi
 
 ### Hasil aktual
 
-> **TODO kelompok:** salin tabel `RINGKASAN` dari bagian akhir `bukti/hasil_pengujian.txt` ke sini, lengkap dengan sistem yang dipakai (baris "Sistem" di file tersebut). Jangan isi dengan hasil yang tidak benar-benar dijalankan.
+5 dari 5 test case SESUAI harapan
+
+| ID | Kondisi | Skenario | Exit diharapkan | Exit aktual | Status |
+|----|---------|----------|-----------------|-------------|--------|
+| TC-01 | BERHASIL | Backup folder memakai file config | 0 | 0 | SESUAI |
+| TC-02 | GAGAL | Folder sumber tidak ada | 4 | 4 | SESUAI |
+| TC-03 | GAGAL | Prefix berisi ../ (mencoba menulis ke luar folder tujuan) | 2 | 2 | SESUAI |
+| TC-04 | GAGAL | Folder tujuan berada di dalam folder sumber | 5 | 5 | SESUAI |
+| TC-05 | GAGAL | File config tidak ditemukan | 3 | 3 | SESUAI |
 
 ### Interpretasi singkat
 
-> **TODO kelompok:** tulis ulang berdasarkan hasil aktual kalian. Contoh kerangka (hapus bagian yang tidak sesuai):
->
-> TC-01 menunjukkan script dapat membuat arsip yang utuh: arsip bisa dibaca ulang, checksum SHA-256 cocok, dan isinya sesuai folder sumber. TC-02 sampai TC-05 menunjukkan input yang salah ditolak **sebelum** ada file yang dibuat, setiap jenis kegagalan menghasilkan exit status yang berbeda sehingga penyebabnya dapat dikenali, dan setiap kegagalan tercatat di log dengan level ERROR. TC-03 secara khusus menunjukkan validasi prefix mencegah penulisan file ke luar folder tujuan.
+TC-01 menunjukkan script dapat membuat arsip yang utuh: arsip bisa dibaca ulang, checksum SHA-256 cocok, dan isinya sesuai folder sumber. TC-02 sampai TC-05 menunjukkan input yang salah ditolak sebelum ada file yang dibuat, setiap jenis kegagalan menghasilkan exit status yang berbeda sehingga penyebabnya dapat dikenali, dan setiap kegagalan tercatat di log dengan level ERROR. TC-03 secara khusus menunjukkan validasi prefix mencegah penulisan file ke luar folder tujuan.
 
 ---
 

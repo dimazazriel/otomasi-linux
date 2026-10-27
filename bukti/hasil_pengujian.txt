@@ -1,0 +1,110 @@
+HASIL PENGUJIAN backup.sh
+Waktu uji  : 2026-10-27 14:14:29 WIB
+Sistem     : Linux 6.6.87.2-microsoft-standard-WSL2
+Bash       : 5.3.9(1)-release
+Versi kode : 62bfc88
+Catatan    : <sandbox> = folder sementara (mktemp), dihapus otomatis setelah pengujian.
+
+============================================================
+TC-01 [BERHASIL] Backup folder memakai file config
+============================================================
+Perintah   : ./backup.sh -c <sandbox>/uji.conf -l bukti/log_pengujian.log
+Diharapkan : exit status 0
+Aktual     : exit status 0
+Output     :
+    2026-10-27 14:14:29 [INFO] [pid 1880] === Mulai backup (pid 1880) ===
+    2026-10-27 14:14:29 [INFO] [pid 1880] Config dimuat: <sandbox>/uji.conf
+    2026-10-27 14:14:29 [INFO] [pid 1880] Sumber : <sandbox>/data
+    2026-10-27 14:14:29 [INFO] [pid 1880] Tujuan : <sandbox>/hasil
+    2026-10-27 14:14:29 [INFO] [pid 1880] Prefix : uji
+    2026-10-27 14:14:29 [INFO] [pid 1880] Folder tujuan dibuat: <sandbox>/hasil
+    2026-10-27 14:14:29 [INFO] [pid 1880] Membuat arsip dari <sandbox>/data ...
+    2026-10-27 14:14:29 [INFO] [pid 1880] Verifikasi OK: arsip bisa dibaca ulang, berisi 4 entri (file + folder).
+    2026-10-27 14:14:30 [INFO] [pid 1880] Arsip    : <sandbox>/hasil/uji_20261027_141429.tar.gz
+    2026-10-27 14:14:30 [INFO] [pid 1880] Ukuran   : 4.0K
+    2026-10-27 14:14:30 [INFO] [pid 1880] Isi      : 4 entri
+    2026-10-27 14:14:30 [INFO] [pid 1880] SHA-256  : 0d1b4647490c890505a1ad4731c1da0061761a40063b17d48d5fcec03be9273f
+    2026-10-27 14:14:30 [INFO] [pid 1880] Checksum : <sandbox>/hasil/uji_20261027_141429.tar.gz.sha256
+    2026-10-27 14:14:30 [INFO] [pid 1880] === Selesai: BERHASIL (exit status 0, durasi 1 detik) ===
+Pemeriksaan tambahan:
+  [v] file arsip uji_*.tar.gz terbentuk di folder tujuan
+  [v] checksum SHA-256 cocok (sha256sum -c)
+  [v] arsip berisi data/catatan.txt
+  [v] arsip berisi data/sub/inventaris.csv
+  [v] tidak ada file .tmp tersisa
+  [v] log mencatat 'Selesai: BERHASIL'
+HASIL TC-01: SESUAI
+
+============================================================
+TC-02 [GAGAL] Folder sumber tidak ada
+============================================================
+Perintah   : ./backup.sh -s <sandbox>/folder_tidak_ada -d <sandbox>/hasil_tc02 -l bukti/log_pengujian.log
+Diharapkan : exit status 4
+Aktual     : exit status 4
+Output     :
+    2026-10-27 14:14:30 [INFO] [pid 1979] === Mulai backup (pid 1979) ===
+    2026-10-27 14:14:30 [ERROR] [pid 1979] Folder sumber tidak ditemukan: <sandbox>/folder_tidak_ada
+    2026-10-27 14:14:30 [ERROR] [pid 1979] === Selesai: GAGAL (exit status 4) ===
+Pemeriksaan tambahan:
+  [v] folder tujuan tidak dibuat (gagal sebelum ada perubahan)
+  [v] log mencatat ERROR 'Folder sumber tidak ditemukan'
+HASIL TC-02: SESUAI
+
+============================================================
+TC-03 [GAGAL] Prefix berisi ../ (mencoba menulis ke luar folder tujuan)
+============================================================
+Perintah   : ./backup.sh -s <sandbox>/data -d <sandbox>/a/b -p ../../jahat -l bukti/log_pengujian.log
+Diharapkan : exit status 2
+Aktual     : exit status 2
+Output     :
+    2026-10-27 14:14:30 [INFO] [pid 2018] === Mulai backup (pid 2018) ===
+    2026-10-27 14:14:30 [ERROR] [pid 2018] Prefix '../../jahat' tidak valid. Hanya boleh huruf, angka, _ dan - (maks. 50 karakter).
+    2026-10-27 14:14:30 [ERROR] [pid 2018] === Selesai: GAGAL (exit status 2) ===
+Pemeriksaan tambahan:
+  [v] tidak ada file jahat_* yang terbentuk di luar tujuan
+  [v] folder tujuan tidak dibuat
+  [v] log mencatat ERROR 'Prefix ... tidak valid'
+HASIL TC-03: SESUAI
+
+============================================================
+TC-04 [GAGAL] Folder tujuan berada di dalam folder sumber
+============================================================
+Perintah   : ./backup.sh -s <sandbox>/data -d <sandbox>/data/backup -l bukti/log_pengujian.log
+Diharapkan : exit status 5
+Aktual     : exit status 5
+Output     :
+    2026-10-27 14:14:30 [INFO] [pid 2059] === Mulai backup (pid 2059) ===
+    2026-10-27 14:14:30 [ERROR] [pid 2059] Folder tujuan (<sandbox>/data/backup) berada di dalam folder sumber (<sandbox>/data). Pilih tujuan di luar sumber.
+    2026-10-27 14:14:30 [ERROR] [pid 2059] === Selesai: GAGAL (exit status 5) ===
+Pemeriksaan tambahan:
+  [v] folder data/backup tidak dibuat
+  [v] log mencatat ERROR 'berada di dalam folder sumber'
+HASIL TC-04: SESUAI
+
+============================================================
+TC-05 [GAGAL] File config tidak ditemukan
+============================================================
+Perintah   : ./backup.sh -c <sandbox>/tidak_ada.conf -l bukti/log_pengujian.log
+Diharapkan : exit status 3
+Aktual     : exit status 3
+Output     :
+    2026-10-27 14:14:30 [INFO] [pid 2100] === Mulai backup (pid 2100) ===
+    2026-10-27 14:14:30 [ERROR] [pid 2100] File config tidak ditemukan: <sandbox>/tidak_ada.conf
+    2026-10-27 14:14:30 [ERROR] [pid 2100] === Selesai: GAGAL (exit status 3) ===
+Pemeriksaan tambahan:
+  [v] log mencatat ERROR 'File config tidak ditemukan'
+HASIL TC-05: SESUAI
+
+============================================================
+RINGKASAN: 5 dari 5 test case SESUAI harapan
+============================================================
+| ID | Kondisi | Skenario | Exit diharapkan | Exit aktual | Status |
+|----|---------|----------|-----------------|-------------|--------|
+| TC-01 | BERHASIL | Backup folder memakai file config | 0 | 0 | SESUAI |
+| TC-02 | GAGAL | Folder sumber tidak ada | 4 | 4 | SESUAI |
+| TC-03 | GAGAL | Prefix berisi ../ (mencoba menulis ke luar folder tujuan) | 2 | 2 | SESUAI |
+| TC-04 | GAGAL | Folder tujuan berada di dalam folder sumber | 5 | 5 | SESUAI |
+| TC-05 | GAGAL | File config tidak ditemukan | 3 | 3 | SESUAI |
+
+File hasil : bukti/hasil_pengujian.txt
+File log   : bukti/log_pengujian.log
